@@ -1,9 +1,9 @@
 <template>
     <div>
-        Search<br>
+        <!-- Search<br>
         params: {{this.$route.params.keyword}}-----------{{keyword}}<br>
-        query: {{this.$route.query.keyword1}}------------{{keyword1}}
-
+        query: {{this.$route.query.keyword1}}------------{{keyword1}} -->
+        <TypeNav></TypeNav>
     </div>
 </template>
 

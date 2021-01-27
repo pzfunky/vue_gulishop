@@ -4,6 +4,10 @@ import App from '@/App'
 //@是一个别名,是一个小名,代表的就是src的路径
 import router from '@/router/index'
 
+//引入需要全局注册的组件
+import TypeNav from '@/components/TypeNav'
+Vue.component('TypeNav',TypeNav)
+
 Vue.config.productionTip = false
 
 new Vue({

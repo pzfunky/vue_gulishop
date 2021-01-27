@@ -60,7 +60,7 @@
                     name:'search',
                     params:{ keyword:this.keyword || undefined},
                     query:{ keyword1:this.keyword.toUpperCase() }
-                },()=>{})
+                })
             }
             /**
              * 一,路由传参种类:params参数和query参数

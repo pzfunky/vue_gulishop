@@ -1791,7 +1791,7 @@
 
                                     dd {
                                         float: left;
-                                        width: 415px;
+                                        width: 615px;
                                         padding: 3px 0 0;
                                         overflow: hidden;
 
@@ -1809,6 +1809,7 @@
                         }
 
                         &:hover {
+                            background-color: grey;
                             .item-list {
                                 display: block;
                             }

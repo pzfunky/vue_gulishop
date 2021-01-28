@@ -7,8 +7,8 @@ import router from '@/router/index'
 import store from '@/store'
 
 // import '@/api' 测试
-import {reqCategoryList} from '@/api'
-reqCategoryList()
+// import {reqCategoryList} from '@/api'
+// console.log(reqCategoryList());
 
 //引入需要全局注册的组件
 import TypeNav from '@/components/TypeNav'

@@ -1,9 +1,4 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import home from './home'
-import user from './user'
-Vue.use(Vuex)
-//这是总的vuex模块
+//这是user模块的vuex模块
 
 //vuex当中的4个核心概念
 const state = {
@@ -18,14 +13,9 @@ const mutations = {
 const getters = {
     //用来简化数据操作
 }
-export default new Vuex.Store({
+export default {
     state,
     actions,
     mutations,
     getters,
-    //modules代表模块化
-    modules:{
-        home,
-        user
-    }
-})
+}

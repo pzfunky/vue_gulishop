@@ -25,7 +25,7 @@ const service = axios.create({
 //必然用到axios的请求拦截器和相应拦截器
 
 // 添加请求拦截器
-axios.interceptors.request.use(function (config) {
+service.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
 
     NProgress.start()   //开启进度条
@@ -37,7 +37,7 @@ axios.interceptors.request.use(function (config) {
   });
 
 // 添加响应拦截器
-axios.interceptors.response.use(function (response) {
+service.interceptors.response.use(function (response) {
     // 对响应数据做点什么
     //我们也可以添加额外的功能或者对响应报文进行处理
 
@@ -54,4 +54,4 @@ axios.interceptors.response.use(function (response) {
     return new Promise(()=>{})  //返回的是pending状态的promise,代表中断promise链,后期也就没办法处理了
   });
 
-  export default service    //把封装好的axios实例暴露出其.后面去用
+export default service    //把封装好的axios实例暴露出其.后面去用

@@ -46,11 +46,19 @@
         name:'TypeNav',
         mounted(){
             this.$store.dispatch('getCategoryList')
+            // console.log(mapState({
+            //     categoryList:state => state.home.categoryList
+            // }));
+            console.log(this.$store);
         },
         computed:{
-            categoryList(){
-                return this.$store.state.home.categoryList
-            }
+            // categoryList(){
+            //     return this.$store.state.home.categoryList
+            // }
+
+            ...mapState({
+                categoryList:state => state.home.categoryList
+            })
         }
     }
 </script>

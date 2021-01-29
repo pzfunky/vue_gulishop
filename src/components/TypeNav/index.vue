@@ -1,9 +1,9 @@
 <template>
     <!-- 商品分类导航 -->
     <div class="type-nav">
-        <div class="container">
+        <div class="container" @mouseleave="currentIndex = -1">
             <h2 class="all">全部商品分类</h2>
-            <nav class="nav">
+            <nav class="nav" @mouseenter="currentIndex = -1">
                 <a href="###">服装城</a>
                 <a href="###">美妆馆</a>
                 <a href="###">尚品汇超市</a>
@@ -15,7 +15,12 @@
             </nav>
             <div class="sort">
                 <div class="all-sort-list2">
-                    <div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
+                    <div class="item" 
+                        :class="{item_on:currentIndex === index}" 
+                        v-for="(c1,index) in categoryList" 
+                        :key="c1.categoryId"
+                        @mouseenter="moveInItem(index)"                        
+                    >
                         <h3>
                             <a href="">{{c1.categoryName}}</a>
                         </h3>
@@ -42,14 +47,39 @@
 
 <script>
     import { mapState } from 'vuex';
+    import throttle from 'lodash/throttle'
     export default {
         name:'TypeNav',
+        data(){
+            return {
+                currentIndex:-1,
+            }
+        },
+        methods:{
+            //_.throttle(this.moveInItem, 500, { 'trailing': false }),
+
+            //没节流的时候
+            // moveInItem(index){
+            //     this.currentIndex = index
+            //     console.log(index);
+            // }
+
+            //节流后,传递的函数不能用箭头函数,因为箭头函数没有自己的this指向
+            moveInItem:throttle(
+                function(index){
+                    this.currentIndex = index
+                    // console.log(index)
+                },
+                20,
+                { 'trailing': false }
+            ),
+        },
         mounted(){
             this.$store.dispatch('getCategoryList')
             // console.log(mapState({
             //     categoryList:state => state.home.categoryList
             // }));
-            console.log(this.$store);
+            // console.log(this.$store);
         },
         computed:{
             // categoryList(){
@@ -173,7 +203,7 @@
                             }
                         }
 
-                        &:hover {
+                        &.item_on {
                             background-color: grey;
                             .item-list {
                                 display: block;

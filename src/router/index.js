@@ -18,6 +18,16 @@ VueRouter.prototype.push = function(location,onResolved,onRejected){
     }
 }
 
+//修改replace方法
+const originReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function(location,onResolved,onRejected){
+    if(onRejected === undefined && onRejected === undefined){
+        return originReplace.call(this,location).catch(()=>{})
+    }else{
+        return originReplace.call(this,location,onResolved,onRejected)
+    }
+}
+
 //需要向外暴露一个路由器对象
 export default new VueRouter({
     routes:[

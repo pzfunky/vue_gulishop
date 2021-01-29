@@ -55,12 +55,17 @@
             }
         },
         methods:{
-            toSearch(){                
-                this.$router.push({
+            toSearch(){    
+                let location = {
                     name:'search',
                     params:{ keyword:this.keyword || undefined},
-                    query:{ keyword1:this.keyword.toUpperCase() }
-                })
+                    // query:{ keyword1:this.keyword.toUpperCase() }
+                }   
+                //跳转之前,要合并原来过来时候带的params参数
+                if(this.$route.params){
+                    location.query = this.$route.query
+                }         
+                this.$router.push(location)
             }
             /**
              * 一,路由传参种类:params参数和query参数

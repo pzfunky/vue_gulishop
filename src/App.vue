@@ -17,6 +17,9 @@
         components:{
             Header,
             Footer
+        },
+        mounted(){
+            this.$store.dispatch('getCategoryList')
         }
     }
 </script>

@@ -45,7 +45,7 @@ export default new VueRouter({
             props:(route)=>{
                 return {
                     keyword:route.params.keyword,
-                    keyword1:route.query.keyword1,
+                    // keyword1:route.query.keyword1,
                 }
             }
         },

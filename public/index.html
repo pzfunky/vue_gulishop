@@ -7,7 +7,7 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/swiper.min.css">
+    <!-- <link rel="stylesheet" href="/css/swiper.min.css"> -->
   </head>
   <body>
     <noscript>
@@ -15,8 +15,11 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <script src="./js/swiper.min.js"></script>
+    <!-- <script src="./js/swiper.min.js"></script>
     <script>
+        window.onload = function(){
+            
+        
         var mySwiper = new Swiper('#mySwiper', {
             loop: true, // 循环模式选项
             // 如果需要分页器
@@ -59,6 +62,8 @@
                 prevEl: '.swiper-button-prev',
             }
         })
-    </script>
+        
+        }
+    </script> -->
   </body>
 </html>

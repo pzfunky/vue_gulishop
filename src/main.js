@@ -5,6 +5,7 @@ import App from '@/App'
 import router from '@/router/index'
 import store from '@/store'
 import '@/mock/mockServer'  //引入mock 让数据生效
+import 'swiper/css/swiper.css' //引入swiper的css文件
 
 // import '@/api' 测试
 // import {reqCategoryList} from '@/api'
@@ -13,6 +14,8 @@ import '@/mock/mockServer'  //引入mock 让数据生效
 //引入需要全局注册的组件
 import TypeNav from '@/components/TypeNav'
 Vue.component('TypeNav',TypeNav)
+import Slideloop from '@/components/Slideloop'
+Vue.component('Slideloop',Slideloop)
 
 Vue.config.productionTip = false
 

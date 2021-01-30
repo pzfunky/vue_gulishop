@@ -1,20 +1,11 @@
 <template>
     <!-- 商品分类导航 -->
     <div class="type-nav">
-        <div class="container" @mouseleave="currentIndex = -1">
-            <h2 class="all" @mouseenter="isShow = true">全部商品分类</h2>
-            <nav class="nav" @mouseenter="currentIndex = -1">
-                <a href="###">服装城</a>
-                <a href="###">美妆馆</a>
-                <a href="###">尚品汇超市</a>
-                <a href="###">全球购</a>
-                <a href="###">闪购</a>
-                <a href="###">团购</a>
-                <a href="###">有趣</a>
-                <a href="###">秒杀</a>
-            </nav>
-            <transition name="sort">
-                <div class="sort" v-show="isShow" @mouseleave="moveOutDiv">
+        <div class="container">
+            <div @mouseleave="moveOutDiv" @mouseenter="isShow = true">
+                <h2 class="all">全部商品分类</h2>
+                <transition name="sort">
+                <div class="sort" v-show="isShow">
                     <div class="all-sort-list2" @click="toSearch">
                         <div class="item" 
                             :class="{item_on:currentIndex === index}" 
@@ -112,7 +103,19 @@
                         </div>                    
                     </div>
                 </div>
-            </transition>            
+                </transition>
+            </div>
+            <nav class="nav">
+                <a href="###">服装城</a>
+                <a href="###">美妆馆</a>
+                <a href="###">尚品汇超市</a>
+                <a href="###">全球购</a>
+                <a href="###">闪购</a>
+                <a href="###">团购</a>
+                <a href="###">有趣</a>
+                <a href="###">秒杀</a>
+            </nav>
+            
         </div>
     </div>
 </template>
@@ -175,7 +178,10 @@
             },
             //
             moveOutDiv(){
+                this.currentIndex = -1
+                //移出外部咱们自己添加的div，得去判断是在home页面移出还是在search页面移出
                 if(this.$route.path !== '/home'){
+                    //证明这个组件是在search里面的，需要让sort隐藏
                     this.isShow = false
                 }  
             },

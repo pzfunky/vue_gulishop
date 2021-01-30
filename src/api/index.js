@@ -1,6 +1,7 @@
 //这个文件写得都是函数,我们叫接口请求函数
 //以后,我们的每个接口都对应了一个函数,如果想要拿相关接口的数据,只需要调用相关的接口请求函数
 import request from './ajax'
+import mockAjax from './mockAjax'
 //请求三级分类列表数据
 ///api/product/getBaseCategoryList
 
@@ -14,3 +15,17 @@ export const reqCategoryList = () => {
     })
 }
 // reqCategoryList()
+
+//请求获取模拟接口的数据banner和floor
+export const reqBannerList = () => {
+    return mockAjax({
+        url:'/banner',
+        method:'get'
+    })
+}
+export const reqFloorList = () => {
+    return mockAjax({
+        url:'/floor',
+        method:'get'
+    })
+}

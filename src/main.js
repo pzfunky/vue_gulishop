@@ -3,8 +3,8 @@ import Vue from 'vue'
 import App from '@/App'
 //@是一个别名,是一个小名,代表的就是src的路径
 import router from '@/router/index'
-
 import store from '@/store'
+import '@/mock/mockServer'  //引入mock 让数据生效
 
 // import '@/api' 测试
 // import {reqCategoryList} from '@/api'

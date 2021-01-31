@@ -1,19 +1,16 @@
 <template>
     <div>
-        <!-- Search<br>
-        params: {{this.$route.params.keyword}}-----------{{keyword}}<br>
-        query: {{this.$route.query.keyword1}}------------{{keyword1}} -->
         <TypeNav></TypeNav>
     </div>
 </template>
 
 <script>
+    import TypeNav from '@/components/TypeNav'
     export default {
-        name:'Search',
-        props:['keyword','keyword1'],
+        name:'Search'
     }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+    
 </style>

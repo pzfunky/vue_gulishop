@@ -1,13 +1,13 @@
 <template>
-    <div>TypeNav</div>
+    <div>Login</div>
 </template>
 
 <script>
     export default {
-        name:'TypeNav'
+        name:'Login'
     }
 </script>
 
-<style lang="less" scoped>
-    
+<style>
+
 </style>

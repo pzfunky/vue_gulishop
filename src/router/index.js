@@ -45,11 +45,17 @@ export default new VueRouter({
         },
         {
             path:'/login',
-            component:Login
+            component:Login,
+            meta:{
+                isHidden:true
+            }
         },
         {
             path:'/register',
-            component:Register
+            component:Register,
+            meta:{
+                isHidden:true
+            }
         },
         {
             path:'/',

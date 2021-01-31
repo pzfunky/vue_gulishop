@@ -5,9 +5,9 @@
 </template>
 
 <script>
-    import TypeNav from '@/components/TypeNav'
     export default {
-        name:'Search'
+        name:'Search',
+        props:['keyword']
     }
 </script>
 

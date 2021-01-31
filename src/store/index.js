@@ -20,7 +20,7 @@ const getters = {
 
 }
 
-export default new Vuex({
+export default new Vuex.Store({
     state,
     actions,
     mutations,
@@ -29,6 +29,4 @@ export default new Vuex({
         home,
         user
     }
-
-
 })

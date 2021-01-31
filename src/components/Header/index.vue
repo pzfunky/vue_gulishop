@@ -8,8 +8,8 @@
                     <p>尚品汇欢迎您！</p>
                     <p>
                         <span>请</span>
-                        <router-link to="login">登录</router-link>
-                        <router-link to="register">免费注册</router-link>
+                        <router-link to="/login">登录</router-link>
+                        <router-link to="/register">免费注册</router-link>
                         <!-- <a href="###">登录</a>
                         <a href="###" class="register">免费注册</a> -->
                     </p>
@@ -29,7 +29,7 @@
         <!--头部第二行 搜索区域-->
         <div class="bottom">
             <h1 class="logoArea">
-                <router-link class="logo" title="尚品汇"  to="home">
+                <router-link class="logo" title="尚品汇"  to="/home">
                     <img src="./images/logo.png" alt="">
                 </router-link>
                 <!-- <a class="logo" title="尚品汇" href="###">

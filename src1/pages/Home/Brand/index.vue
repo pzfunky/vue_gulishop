@@ -1,5 +1,5 @@
 <template>
-        <!--商标-->
+    <!--商标-->
     <div class="brand">
         <div class="py-container">
             <ul class="brand-list">
@@ -40,12 +40,12 @@
 
 <script>
     export default {
-        name:'brand'
+        name:'Brand'
     }
 </script>
 
-<style lang='less' scoped>
-    .brand {
+<style lang="less" scoped>
+        .brand {
         margin: 10px 0;
 
         .py-container {

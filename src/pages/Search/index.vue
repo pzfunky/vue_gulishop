@@ -1,5 +1,8 @@
 <template>
     <div>
+        <!-- Search<br>
+        params: {{this.$route.params.keyword}}-----------{{keyword}}<br>
+        query: {{this.$route.query.keyword1}}------------{{keyword1}} -->
         <TypeNav></TypeNav>
     </div>
 </template>
@@ -7,10 +10,10 @@
 <script>
     export default {
         name:'Search',
-        props:['keyword']
+        props:['keyword','keyword1'],
     }
 </script>
 
-<style lang="less" scoped>
-    
+<style>
+
 </style>

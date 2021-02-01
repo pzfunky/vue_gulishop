@@ -1,5 +1,5 @@
 <template>
-        <!-- 猜你喜欢 -->
+    <!-- 猜你喜欢 -->
     <div class="like">
         <div class="py-container">
             <div class="title">
@@ -53,16 +53,16 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div>  
 </template>
 
 <script>
     export default {
         name:'Like'
-    }   
+    }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
     .like {
         margin-top: 15px;
 
@@ -145,5 +145,5 @@
                 }
             }
         }
-    }
+    }  
 </style>

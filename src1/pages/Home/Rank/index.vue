@@ -1,5 +1,5 @@
 <template>
-        <!-- 商品排行 -->
+    <!-- 商品排行 -->
     <div class="rank">
         <div class="tab">
             <div class="tab-tit clearfix">
@@ -82,7 +82,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div>  
 </template>
 
 <script>
@@ -91,7 +91,7 @@
     }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
     .rank {
         width: 1200px;
         margin: 0 auto;
@@ -206,5 +206,5 @@
                 }
             }
         }
-    }
+    }   
 </style>

@@ -1,23 +1,31 @@
 <template>
-        <!--列表-->
+    <!--列表-->
     <div class="list-container">
         <div class="sortList clearfix">
             <div class="center">
                 <!--banner轮播-->
-                <!-- <div class="swiper-container" id="mySwiper" ref="bannerSwiper">
+                <div class="swiper-container" id="mySwiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="item in bannerList" :key="item.id">
-                            <img :src="item.imgUrl" />
+                        <div class="swiper-slide">
+                            <img src="./images/banner1.jpg" />
                         </div>
-                    </div> -->
+                        <div class="swiper-slide">
+                            <img src="./images/banner2.jpg" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/banner3.jpg" />
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/banner4.jpg" />
+                        </div>
+                    </div>
                     <!-- 如果需要分页器 -->
-                    <!-- <div class="swiper-pagination"></div> -->
+                    <div class="swiper-pagination"></div>
 
                     <!-- 如果需要导航按钮 -->
-                    <!-- <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
-                </div> -->
-                <Slideloop :bannerList="bannerList"></Slideloop>
+                </div>
             </div>
             <div class="right">
                 <div class="news">
@@ -99,61 +107,16 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import Swiper from 'swiper'
-    // import 'swiper/css/swiper.css'  //一般在main中引入
     export default {
-        name:'ListContainer',
-        //挂载完成以后去实例化swiper
-        //在这是不行的,因为实例化的时候,页面显示还不一定成功
-        //按道理来说挂载完成,页面的dom结构就算形成完成,在此去实例化应该是可以的
-        //但是这个页面当中结构的swiper-slide,是根据请求回来的数据,动态创建生成的
-        //所以,我们必须得保证请求数据回来之后,再去实例化
-        //setTimeout是解决方法之一,但是不完美
-        mounted(){
-            this.$store.dispatch('getBannerList')
-        },
-        // watch:{
-        //     bannerList:{
-        //         handler(){
-        //             this.$nextTick(function(){
-        //                var mySwiper = new Swiper(this.$refs.bannerSwiper, {
-        //                     // observeParents:true,
-        //                     observer:true,
-        //                     loop: true, // 循环模式选项
-        //                     // 如果需要分页器
-        //                     pagination: {
-        //                         el: '.swiper-pagination',
-        //                     },
-        //                     // 如果需要前进后退按钮
-        //                     navigation: {
-        //                         nextEl: '.swiper-button-next',
-        //                         prevEl: '.swiper-button-prev',
-        //                     },
-        //                     autoplay:{
-        //                         delay:1000,
-        //                         disableOnInteraction:false, //解决滑动后不能轮播的问题
-        //                     }
-        //                }) 
-        //             })
-        //         }
-        //     }
-        // },
-        computed:{
-            ...mapState({
-                bannerList:state => state.home.bannerList
-            })
-        }
+        name:'ListContainer'
     }
-    
-        
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
     .list-container {
         width: 1200px;
         margin: 0 auto;
@@ -324,5 +287,5 @@
                 }
             }
         }
-    }
+    } 
 </style>

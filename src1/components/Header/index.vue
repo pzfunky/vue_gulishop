@@ -9,9 +9,9 @@
                     <p>
                         <span>请</span>
                         <router-link to="/login">登录</router-link>
-                        <!-- <a href="###">登录</a> -->
                         <router-link to="/register">免费注册</router-link>
-                        <!-- <a href="###" class="register">免费注册</a> -->
+                        <!-- <a href="###">登录</a>
+                        <a href="###" class="register">免费注册</a> -->
                     </p>
                 </div>
                 <div class="typeList">
@@ -29,17 +29,26 @@
         <!--头部第二行 搜索区域-->
         <div class="bottom">
             <h1 class="logoArea">
-                <router-link to="/home" class="logo" title="尚品汇">
+                <router-link class="logo" title="尚品汇"  to="/home">
                     <img src="./images/logo.png" alt="">
                 </router-link>
-                <!-- <a class="logo" title="尚品汇" href="###" target="_blank">
+                <!-- <a class="logo" title="尚品汇" href="###">
                     <img src="./images/logo.png" alt="">
                 </a> -->
             </h1>
             <div class="searchArea">
                 <form action="###" class="searchForm">
-                    <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword"/>
-                    <button class="sui-btn btn-xlarge btn-danger" type="button" @click="toSearch()">搜索</button>
+                    <input 
+                        type="text" 
+                        id="autocomplete" 
+                        class="input-error input-xxlarge"
+                        v-model="keyword"
+                    />
+                    <button 
+                        class="sui-btn btn-xlarge btn-danger" 
+                        type="button" 
+                        @click="toSearch"
+                    >搜索</button>
                 </form>
             </div>
         </div>
@@ -55,37 +64,17 @@
             }
         },
         methods:{
-            toSearch(){    
-                let location = {
+            toSearch(){
+                this.$router.push({
                     name:'search',
-                    params:{ keyword:this.keyword || undefined},
-                    // query:{ keyword1:this.keyword.toUpperCase() }
-                }   
-                //跳转之前,要合并原来过来时候带的params参数
-                if(this.$route.params){
-                    location.query = this.$route.query
-                }         
-                this.$router.push(location)
+                    params:{keyword:this.keyword || undefined}
+                })
             }
-            /**
-             * 一,路由传参种类:params参数和query参数
-             * params参数是属于路径的一部分,路由当中匹配的时候,是要照顾到这个参数的
-             * query参数是在路径的后面,以?分割,?后面的a = b & c = d 就是query参数
-             *      query参数不属于路径,不会影响匹配路由规则
-             * 
-             * 二,路由路径带参数的三种写法
-             * 1 字符串写法
-             *      this.$router.push('/search/' + this.keyword + '?keyword1=' + this.keyword.toUpperCase())
-             * 2 模板字符串
-             *      this.$router.push(`/search/${this.keyword}?keyword1=${this.keyword.toUpperCase()}`)
-             * 3 对象写法 
-             * 
-             */
         }
     }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
     .header {
         &>.top {
             background-color: #eaeaea;

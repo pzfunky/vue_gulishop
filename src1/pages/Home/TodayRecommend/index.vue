@@ -1,5 +1,5 @@
 <template>
-        <!--今日推荐-->
+    <!--今日推荐-->
     <div class="today-recommend">
         <div class="py-container">
             <ul class="recommend">
@@ -23,16 +23,16 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> 
 </template>
 
 <script>
     export default {
-        name:'TodayRecommend'        
+        name:'TodayRecommend'
     }
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
     .today-recommend {
         .py-container {
             width: 1200px;
@@ -78,5 +78,5 @@
                 }
             }
         }
-    }
+    }  
 </style>

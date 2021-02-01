@@ -103,8 +103,8 @@
     }
 </script>
 
-<style lang='less' scoped>
-    .footer {
+<style lang="less" scoped>
+        .footer {
         background-color: #eaeaea;
 
         .footer-container {

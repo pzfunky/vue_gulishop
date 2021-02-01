@@ -11,15 +11,28 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{searchParams.categoryName}}
+              <i @click="removeCategoryName">x</i>
+            </li>
+            <li class="with-x" v-if="searchParams.keyword">
+              {{searchParams.keyword}}
+              <i @click="removeKeyword">x</i>
+            </li>
+            <li class="with-x" v-if="searchParams.trademark">
+              {{searchParams.trademark.split(':')[1]}}
+              <i @click="removeTrademark">x</i>
+            </li>
+            <li class="with-x" v-for="(prop,index) in searchParams.props" :key="prop">
+              {{prop.split(":")[1]}}
+              <i @click="removeProp(index)">x</i>
+            </li>
+
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector/>
+        <SearchSelector @searchForTrademark="searchForTrademark" @searchForProps="searchForProps"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -123,16 +136,129 @@
       this.getSearchInfo()
     },
 
+    data(){
+      return {
+        searchParams:{
+          //这个对象我们称作初始化搜索参数,今后只要是作为搜索条件的,全部先在这初始化为空
+          category1Id: "",
+          category2Id: "",
+          category3Id: "",
+          categoryName: "",
+          keyword: "",
+          props: [],
+          trademark: "",
+
+          //默认的搜索条件,
+          // order: "1:desc",  //排序规则,排序是后台排序的,我们搜索的时候得给后台一个默认的后台规则
+          // pageNo: 1,        //搜索第几页商品,分页也是后台做好的,我们得告诉后台要第几个数据
+          // pageSize: 5      //每页多少个商品,告诉后台,每页回来多少个商品,默认10个
+        }
+      }
+    },
     methods:{
       getSearchInfo(){
         //如果dispatch传递多个参数,那么多个参数必须构成一个对象
         //也就是说dispatch只能传递一个参数
-        this.$store.dispatch('getSearchInfo',{})
+        // this.$store.dispatch('getSearchInfo',{})  //这里刚开始传递空对象只是为了获取数据展示页面
+
+        this.$store.dispatch('getSearchInfo',this.searchParams)
+      },
+      handlerSearchParams(){
+        //浅拷贝
+        let {category1Id,category2Id,category3Id,categoryName} = this.$route.query
+        let {keyword} = this.$route.params
+
+        let searchParams = {
+          ...this.searchParams,
+          category1Id,
+          category2Id,
+          category3Id,
+          categoryName,
+          keyword
+        }
+        this.searchParams = searchParams
+      },
+
+      //删除分类搜索标签,重新发送请求
+      removeCategoryName(){
+        this.searchParams.categoryName = undefined
+        this.searchParams.category1Id = undefined
+        this.searchParams.category2Id = undefined
+        this.searchParams.category3Id = undefined
+        this.getSearchInfo()  //这里删除以后不会动我原来的路径,所以这样发请求不行,
+        //我们得让路径变化再发送请求,要删除对应的参数,只留剩下的参数发请求
+        // this.$router.push({
+        //   name:'search',
+        //   params:this.$route.params
+        // })
+      },
+      //删除关键字搜索标签,重新发送请求
+      removeKeyword(){
+        this.searchParams.keyword = undefined
+        this.$bus.$emit('clearKeyword')
+        // this.getSearchInfo()  //这里删除以后不会动我原来的路径,所以这样发请求不行,
+        //我们得让路径变化再发送请求,要删除对应的参数,只留剩下的参数发请求
+        this.$router.push({
+          name:'search',
+          query:this.$route.query
+        })
+      },
+      //删除品牌搜索标签,重新发送请求
+      removeTrademark(){
+        this.searchParams.trademark = undefined
+        this.getSearchInfo()
+      },
+      //删除属性值搜索标签,重新发送请求
+      removeProp(index){
+        this.searchParams.props.splice(index,1)
+        this.getSearchInfo()
+      },
+      //用户点击品牌后,根据品牌搜索,重新发请求
+      searchForTrademark(trademark){
+        //trademark的样子要参考接口文档
+        this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+        this.getSearchInfo()
+      },
+      //用户点击平台属性值,根据平台属性值重新发送请求
+      searchForProps(attrValue,attr){
+        let prop = `${attr.attrId}:${attrValue}:${attr.attrName}`
+
+        //解决重复创建
+        let isRepeate = this.searchParams.props.some(item => item === prop)
+        if(isRepeate){
+          return
+        }
+
+        this.searchParams.props.push(prop)
+        this.getSearchInfo()
       }
+    },
+    //按照三级分类和关键字进行搜索
+    //beforeMounted只能执行一次
+    beforeMount(){
+      //在点击三级分类或者点击搜索按钮跳转过来发请求之前,把对应的三级分类名称和id或者关键字keyword
+      //添加到searchParams中
+      
+      this.handlerSearchParams()
+    },
+    //mounted只能执行一次
+    mounted(){
+      //点击跳转过来,是在这里发请求的
+      this.getSearchInfo()
     },
 
     computed:{
       ...mapGetters(['goodsList'])
+    },
+
+    //用于解决搜索后无法再次搜索
+    watch:{
+      $route:{
+        handler(){
+          this.handlerSearchParams()
+          this.getSearchInfo()
+        }
+      }
     }
   }
 </script>

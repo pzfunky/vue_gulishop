@@ -20,6 +20,9 @@ Vue.component('Slideloop',Slideloop)
 Vue.config.productionTip = false
 
 new Vue({
+  beforeCreate() {
+    Vue.prototype.$bus = this   //安装总线,代表任意组件内部可以通过this.$bus访问到vm实例
+  },
   render: h => h(App),
   router,  //我们所有的组件内部都可以使用this.$router 和 this.$route
   store

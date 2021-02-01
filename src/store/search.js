@@ -14,6 +14,9 @@ const actions = {
         const result = await reqSearchInfo(searchParams)
         if(result.code === 200){
             commit('RECEIVE_SEARCHINFO',result.data)
+            // result.data.attrsList.forEach(item => {
+            //     console.log(item.attrName);                
+            // });
         }
     }
 }

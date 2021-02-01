@@ -19,7 +19,7 @@
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector/>
 
         <!--details-->
         <div class="details clearfix">
@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
   import SearchSelector from './SearchSelector/SearchSelector'
   export default {
     name: 'Search',
@@ -132,7 +132,7 @@ import { mapGetters } from 'vuex'
     },
 
     computed:{
-      ...mapGetters(['attrsList','goodsList','trademarkList'])
+      ...mapGetters(['goodsList'])
     }
   }
 </script>

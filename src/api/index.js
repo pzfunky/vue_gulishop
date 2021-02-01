@@ -29,3 +29,25 @@ export const reqFloorList = () => {
         method:'get'
     })
 }
+
+//请求获取search页面的数据
+///api/list POST
+//  {
+//     "category3Id": "61",
+//     "categoryName": "手机",
+//     "keyword": "小米",
+//     "order": "1:desc",
+//     "pageNo": 1,
+//     "pageSize": 10,
+//     "props": ["1:1700-2799:价格", "2:6.65-6.74英寸:屏幕尺寸"],
+//     "trademark": "4:小米"
+//   }
+  
+export const reqSearchInfo = (searchParams) => {
+    return request({
+        url:'/list',
+        method:'post',
+        data:searchParams   //searchParams是用户搜索的参数,用户在发请求时传递过来
+    })
+}
+//searchParams是一个对象,可以是空对象,但是必须传

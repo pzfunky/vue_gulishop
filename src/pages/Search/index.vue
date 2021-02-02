@@ -38,11 +38,41 @@
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
+              <!-- 第一步:先把背景色动态显示搞定 -->
+              <!-- 第二部:再让图标可以动态显示 
+                    1 用啥图标
+                    2 图标什么时候出现, 和背景色一样 ,谁有背景色谁有图标
+                    3 图标向上向下, 和数据排序类型相关 asc和desc
+              -->
+              
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active:searchParams.order.split(':')[0] === '1'}">
+                  <a href="#" @click="changeSort('1')">
+                    综合
+                    <i v-if="searchParams.order.split(':')[0] === '1'" 
+                      class="iconfont" 
+                      :class="{
+                        icondown:searchParams.order.split(':')[1] === 'desc',
+                        iconup:searchParams.order.split(':')[1] === 'asc'
+                      }"
+                    >
+                    </i>
+                  </a>
                 </li>
-                <li>
+                <li :class="{active:searchParams.order.split(':')[0] === '2'}">
+                  <a href="#" @click="changeSort('2')">
+                    价格
+                    <i v-if="searchParams.order.split(':')[0] === '2'" 
+                      class="iconfont" 
+                      :class="{
+                        icondown:searchParams.order.split(':')[1] === 'desc',
+                        iconup:searchParams.order.split(':')[1] === 'asc'
+                      }"
+                    >
+                    </i>
+                  </a>
+                </li>
+                <!-- <li>
                   <a href="#">销量</a>
                 </li>
                 <li>
@@ -50,13 +80,10 @@
                 </li>
                 <li>
                   <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                   <a href="#">价格⬇</a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -149,9 +176,9 @@
           trademark: "",
 
           //默认的搜索条件,
-          // order: "1:desc",  //排序规则,排序是后台排序的,我们搜索的时候得给后台一个默认的后台规则
-          // pageNo: 1,        //搜索第几页商品,分页也是后台做好的,我们得告诉后台要第几个数据
-          // pageSize: 5      //每页多少个商品,告诉后台,每页回来多少个商品,默认10个
+          order: "1:asc",  //排序规则,排序是后台排序的,我们搜索的时候得给后台一个默认的后台规则
+          pageNo: 1,        //搜索第几页商品,分页也是后台做好的,我们得告诉后台要第几个数据
+          pageSize: 5      //每页多少个商品,告诉后台,每页回来多少个商品,默认10个
         }
       }
     },
@@ -175,7 +202,24 @@
           category3Id,
           categoryName,
           keyword
-        }
+        }//这样可以保证searchParams,里面一定包含了我点击传递过来的搜索条件,没有就是undefined
+
+        //赋值给this.searchParams之前,最好把属性值为空的空串干掉,需要遍历对象
+        //for循环 for...in  forEach for...of
+        //for循环是js中最简单的遍历方法,主要是针对数组进行遍历,效率不高,但是可以使用continue和break
+        //for...in 主要是用来遍历对象,遍历对象的可枚举属性,效率最低,原因是不但要遍历自身的属性,还要遍历原型
+        //forEach 是数组的一个方法,主要也是用来遍历数组,效率最高,但是不可以使用continue和break
+        //for...of 是ES6里新增的一种遍历方法,使用的前提是必须是可迭代对象,效率没有forEach高(比其他高),
+        //也可以使用continue和break,for...of只能针对可迭代对象
+
+        //Object.keys(searchParams) //是把一个对象转化为数组,这个数组当中存储的是这个对象所有的属性
+
+        Object.keys(searchParams).forEach(key=>{
+          if(searchParams[key] === ''){
+            delete searchParams[key]
+          }
+        })
+
         this.searchParams = searchParams
       },
 
@@ -185,12 +229,12 @@
         this.searchParams.category1Id = undefined
         this.searchParams.category2Id = undefined
         this.searchParams.category3Id = undefined
-        this.getSearchInfo()  //这里删除以后不会动我原来的路径,所以这样发请求不行,
+        // this.getSearchInfo()  //这里删除以后不会动我原来的路径,所以这样发请求不行,
         //我们得让路径变化再发送请求,要删除对应的参数,只留剩下的参数发请求
-        // this.$router.push({
-        //   name:'search',
-        //   params:this.$route.params
-        // })
+        this.$router.replace({
+          name:'search',
+          params:this.$route.params
+        })
       },
       //删除关键字搜索标签,重新发送请求
       removeKeyword(){
@@ -198,7 +242,7 @@
         this.$bus.$emit('clearKeyword')
         // this.getSearchInfo()  //这里删除以后不会动我原来的路径,所以这样发请求不行,
         //我们得让路径变化再发送请求,要删除对应的参数,只留剩下的参数发请求
-        this.$router.push({
+        this.$router.replace({
           name:'search',
           query:this.$route.query
         })
@@ -231,6 +275,26 @@
 
         this.searchParams.props.push(prop)
         this.getSearchInfo()
+      },
+
+      //点击综合或者价格后的回调
+      changeSort(sortFlag){
+        //首先要判断用户点击的是不是和原来的排序标志一样
+        //获取原来的排序规则
+        let originSortFlag = this.searchParams.order.split(':')[0]
+        let originSortType = this.searchParams.order.split(':')[1]
+        let newOrder = ''
+        //判断用户点击的是不是原来的
+        if(sortFlag === originSortFlag){
+          //假设用户点击的排序标志和原来是一样的,我们只需要改变排序类型
+          newOrder = `${originSortFlag}:${originSortType === 'asc'?'desc':'asc'}`
+        }else{
+          //假设用户点击的排序标志和原来的不一样,证明点击的不是同一个排序,我们需要改变排序标志,排序类型默认desc
+          newOrder = `${sortFlag}:desc`
+        }
+        this.searchParams.order = newOrder
+
+        this.getSearchInfo()  //重新发送请求
       }
     },
     //按照三级分类和关键字进行搜索
@@ -248,7 +312,13 @@
     },
 
     computed:{
-      ...mapGetters(['goodsList'])
+      ...mapGetters(['goodsList']),
+      sortFlag(){
+        searchParams.order.split(':')[0]
+      },
+      sortType(){
+        searchParams.order.split(':')[1]
+      }
     },
 
     //用于解决搜索后无法再次搜索

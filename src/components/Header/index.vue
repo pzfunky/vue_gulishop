@@ -71,7 +71,13 @@
                 if(this.$route.params){
                     location.query = this.$route.query
                 }         
-                this.$router.push(location)
+                //如果是home跳search,用push
+                //如果是search跳search,replace
+                if(this.$route.path !== '/home'){
+                    this.$router.replace(location)
+                }else{
+                    this.$router.push(location)
+                }
             }
             /**
              * 一,路由传参种类:params参数和query参数

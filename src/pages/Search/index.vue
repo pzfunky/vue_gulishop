@@ -114,7 +114,7 @@
               </li>              
             </ul>
           </div>
-          <div class="fr page">
+          <!-- <div class="fr page">
             <div class="sui-pagination clearfix">
               <ul>
                 <li class="prev disabled">
@@ -142,7 +142,14 @@
               </ul>
               <div><span>共10页&nbsp;</span></div>
             </div>
-          </div>
+          </div> -->
+          <Pagination 
+            :currentPageNo="searchParams.pageNo" 
+            :total="search.searchInfo.total"
+            :pageSize="searchParams.pageSize"
+            :continueNo="5"
+            @changePageNo="changePageNo"
+          ></Pagination>
         </div>
       </div>
     </div>
@@ -150,7 +157,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
   import SearchSelector from './SearchSelector/SearchSelector'
   export default {
     name: 'Search',
@@ -250,11 +257,13 @@
       //删除品牌搜索标签,重新发送请求
       removeTrademark(){
         this.searchParams.trademark = undefined
+
         this.getSearchInfo()
       },
       //删除属性值搜索标签,重新发送请求
       removeProp(index){
         this.searchParams.props.splice(index,1)
+        // this.searchParams.pageNo = 1
         this.getSearchInfo()
       },
       //用户点击品牌后,根据品牌搜索,重新发请求
@@ -295,6 +304,11 @@
         this.searchParams.order = newOrder
 
         this.getSearchInfo()  //重新发送请求
+      },
+      //分页器点击切换页码时的回调
+      changePageNo(page){
+        this.searchParams.pageNo = page
+        this.getSearchInfo()
       }
     },
     //按照三级分类和关键字进行搜索
@@ -313,6 +327,7 @@
 
     computed:{
       ...mapGetters(['goodsList']),
+      ...mapState(['search']),
       sortFlag(){
         searchParams.order.split(':')[0]
       },

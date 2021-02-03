@@ -16,6 +16,8 @@ import TypeNav from '@/components/TypeNav'
 Vue.component('TypeNav',TypeNav)
 import Slideloop from '@/components/Slideloop'
 Vue.component('Slideloop',Slideloop)
+import Pagination from '@/components/Pagination'
+Vue.component('Pagination',Pagination)
 
 Vue.config.productionTip = false
 

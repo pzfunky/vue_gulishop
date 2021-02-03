@@ -8,7 +8,7 @@
         <button v-if="startEnd.start > 2">···</button>
 
         <!-- 这里显示连续页 -->
-        <!-- vfor还可以遍历一个数字 -->
+        <!-- vfor还可以遍历一个数字 vfor优先级比vif高-->
         <button 
           :class="{active:currentPageNo === page}" 
           v-for="page in startEnd.end" :key="page" 
@@ -33,7 +33,7 @@
       currentPageNo:Number,
       total:{
         type:Number,
-        default:0
+        default:0 //必须给一个默认值0
       },
       pageSize:{
         type:Number,

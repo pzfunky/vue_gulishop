@@ -92,7 +92,8 @@
               <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"><img :src="goods.defaultImg" /></a>
+                    <router-link :to="'/detail/'+goods.id"><img :src="goods.defaultImg" /></router-link>
+                    <!-- <a href="item.html" target="_blank"><img :src="goods.defaultImg" /></a> -->
                   </div>
                   <div class="price">
                     <strong>
@@ -101,7 +102,8 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a target="_blank" href="item.html" title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】">{{goods.title}}</a>
+                    <!-- <a target="_blank" href="item.html" title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】">{{goods.title}}</a> -->
+                    <router-link :to="'/detail/'+goods.id">{{goods.title}}</router-link>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -238,6 +240,7 @@
         this.searchParams.category3Id = undefined
         // this.getSearchInfo()  //这里删除以后不会动我原来的路径,所以这样发请求不行,
         //我们得让路径变化再发送请求,要删除对应的参数,只留剩下的参数发请求
+        this.searchParams.pageNo = 1
         this.$router.replace({
           name:'search',
           params:this.$route.params
@@ -249,6 +252,7 @@
         this.$bus.$emit('clearKeyword')
         // this.getSearchInfo()  //这里删除以后不会动我原来的路径,所以这样发请求不行,
         //我们得让路径变化再发送请求,要删除对应的参数,只留剩下的参数发请求
+        this.searchParams.pageNo = 1  
         this.$router.replace({
           name:'search',
           query:this.$route.query
@@ -257,19 +261,20 @@
       //删除品牌搜索标签,重新发送请求
       removeTrademark(){
         this.searchParams.trademark = undefined
-
+        this.searchParams.pageNo = 1
         this.getSearchInfo()
       },
       //删除属性值搜索标签,重新发送请求
       removeProp(index){
         this.searchParams.props.splice(index,1)
-        // this.searchParams.pageNo = 1
+        this.searchParams.pageNo = 1
         this.getSearchInfo()
       },
       //用户点击品牌后,根据品牌搜索,重新发请求
       searchForTrademark(trademark){
         //trademark的样子要参考接口文档
         this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+        this.searchParams.pageNo = 1
         this.getSearchInfo()
       },
       //用户点击平台属性值,根据平台属性值重新发送请求
@@ -283,6 +288,7 @@
         }
 
         this.searchParams.props.push(prop)
+        this.searchParams.pageNo = 1
         this.getSearchInfo()
       },
 
@@ -302,7 +308,7 @@
           newOrder = `${sortFlag}:desc`
         }
         this.searchParams.order = newOrder
-
+        this.searchParams.pageNo = 1
         this.getSearchInfo()  //重新发送请求
       },
       //分页器点击切换页码时的回调

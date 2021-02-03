@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import home from './home'
 import user from './user'
 import search from './search'
+import detail from './detail'
+import shopCart from './shopCart'
 Vue.use(Vuex)
 //这是总的vuex模块
 
@@ -23,11 +25,13 @@ export default new Vuex.Store({
     state,
     actions,
     mutations,
-    getters,
+    getters,    
     //modules代表模块化
     modules:{
         home,
         user,
-        search
+        search,
+        detail,
+        shopCart
     }
 })

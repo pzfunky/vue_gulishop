@@ -51,3 +51,20 @@ export const reqSearchInfo = (searchParams) => {
     })
 }
 //searchParams是一个对象,可以是空对象,但是必须传
+
+//请求获取详情数据
+
+export const reqDetailInfo = (skuId)=>{
+    return request({
+        url:`/item/${skuId}`,
+        method:'get'
+    })
+}
+
+//请求添加购物车(修改购物车数量)
+export const reqAddOrUpdateShopCart= (skuId,skuNum) => {
+    return request({
+        url:`/cart/addToCart/${skuId}/${skuNum}`,
+        method:'post'
+    })
+}

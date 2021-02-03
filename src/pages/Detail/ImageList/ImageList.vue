@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container" ref="imgListSwiper">
+  <div class="swiper-container swiper-no-swiping" ref="imgListSwiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide" v-for="(image,index) in imgList" :key="image.id">
         <img 
@@ -29,6 +29,7 @@
       changeDefaultIndex(index){
         this.defaultIndex=index
         //把当前的index传递给zoom
+        console.log(index);
         this.$bus.$emit('changeDefaultIndex',index)
       }
     },
@@ -38,13 +39,14 @@
             handler(){
                 this.$nextTick(function(){
                     var mySwiper = new Swiper(this.$refs.imgListSwiper, {
-                        loop: true, // 循环模式选项
+                        // loop: true, // 循环模式选项
                         // 如果需要前进后退按钮
                         navigation: {
                             nextEl: '.swiper-button-next',
                             prevEl: '.swiper-button-prev',
                         },
-                        slidesPerView: "4",  //默认1, 同时显示的slides数量,auto 代表根据轮播图的宽度排列
+                        slidesPerView: 4,  //默认1, 同时显示的slides数量,auto 代表根据轮播图的宽度排列
+                        slidesPerGroup:1,  //切换一组，几张图片
                         // autoplay:{
                         //     delay:3000,
                         //     disableOnInteraction:false, //解决滑动后不能轮播的问题

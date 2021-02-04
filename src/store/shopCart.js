@@ -1,10 +1,11 @@
 //这是shopCart模块的vuex模块
 
-import { reqAddOrUpdateShopCart } from "@/api"
+import { reqAddOrUpdateShopCart, reqShopCartInfo } from "@/api"
 
 //vuex当中的4个核心概念
 const state = {
     //存数据
+    shopCartInfo:[]
 }
 const actions = {
     //与组件当中用户对接,一般是异步发请求,提交mutations
@@ -22,13 +23,28 @@ const actions = {
             return Promise.reject(new Error('failed'))
         }
 
+    },
+    async getshopCartInfo({commit}){
+        const result = await reqShopCartInfo()
+        if(result.code === 200){
+            commit('RECEIVE_SHOPCARTINFO',result.data) 
+        }
+        
     }
 }
 const mutations = {
     //直接修改数据
+    RECEIVE_SHOPCARTINFO(state,shopCartInfo){
+        state.shopCartInfo = shopCartInfo
+    }
+
+
 }
 const getters = {
     //用来简化数据操作
+    cartInfo(state){
+        return state.shopCartInfo[0] || {}
+    }
 }
 export default {
     state,

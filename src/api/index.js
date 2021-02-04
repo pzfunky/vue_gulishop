@@ -68,3 +68,11 @@ export const reqAddOrUpdateShopCart= (skuId,skuNum) => {
         method:'post'
     })
 }
+
+//请求获取购物车数据
+export const reqShopCartInfo= () => {
+    return request({
+        url:'/cart/cartList/',
+        method:'get'
+    })
+}

@@ -12,6 +12,7 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import store from '@/store'
 
 //以后只要是对axios二次封装,不会在axios身上直接去封装,而是创建一个新的axios实例进行封装
 //axios.create()创建一个新的和axios具有相同功能的一个实例
@@ -29,6 +30,14 @@ service.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
 
     NProgress.start()   //开启进度条
+
+    //请求头内部需要添加临时标识,后期每个请求都会带上这个临时标识
+    let userTempId = store.state.user.userTempId
+    
+    if(userTempId){
+      config.headers.userTempId = userTempId
+    }
+
     return config;
   }, function (error) {
     // 对请求错误做些什么

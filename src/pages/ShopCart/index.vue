@@ -13,7 +13,7 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="(cart) in cartInfoList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="cart.isChecked">
+            <input type="checkbox" name="chk_list" :checked="cart.isChecked" @click="updateOneCheck(cart)">
           </li>
           <li class="cart-list-con2">
             <img :src="cart.imgUrl">
@@ -23,9 +23,16 @@
             <span class="price">{{cart.skuPrice}}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input autocomplete="off" type="text" :value="cart.skuNum" minnum="1" class="itxt">
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a href="javascript:void(0)" class="mins" @click="changeCartNum(cart,-1,true)">-</a>
+            <input 
+              autocomplete="off" 
+              type="text" 
+              :value="cart.skuNum" 
+              minnum="1" 
+              class="itxt"
+              @change="changeCartNum(cart,$event.target.value*1,false)"
+            >
+            <a href="javascript:void(0)" class="plus" @click="changeCartNum(cart,1,true)">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{cart.skuPrice*cart.skuNum}}</span>
@@ -40,7 +47,7 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox">
+        <input class="chooseAll" type="checkbox" v-model="isCheckedAll">
         <span>全选</span>
       </div>
       <div class="option">
@@ -50,10 +57,10 @@
       </div>
       <div class="money-box">
         <div class="chosed">已选择
-          <span>0</span>件商品</div>
+          <span>{{checkedNum}}</span>件商品</div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">0</i>
+          <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
           <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -73,6 +80,51 @@
     methods:{
       getshopCartInfo(){
         this.$store.dispatch('getshopCartInfo')        
+      },
+
+      //修改购物车数量
+      async changeCartNum(cart,disNum,flag){
+        //flag用于判断数据来源,true代表加减按钮,false代表输入框
+        let originNum = cart.skuNum
+        console.log(originNum);
+
+        //disNum 如果是点加减传过来的数据,        
+        if(flag){
+          //修正disNum 不能比1小,至少是1
+          if(originNum + disNum < 1){
+            disNum = 1 - originNum
+          }
+        }else{
+          //disNum 如果是输入框传过来的数据,是最终值
+          //判断disNum是否是合法数据
+          if(disNum<1){
+            disNum = 1 - originNum
+          }else{
+            disNum = disNum - originNum
+          }
+        }
+        console.log(disNum);
+
+        //上面的if语句过后,disNum一定会是正确的变化量
+        //发请求修改数量
+        try {
+          await this.$store.dispatch('addOrUpdateShopCart',{skuId:cart.skuId,skuNum:disNum})
+          //如果请求成功,重新获取购物车列表数据
+          this.getshopCartInfo()
+        } catch (error) {
+          alert(error.message)
+        }
+
+      },
+
+      //修改购物车选中状态
+      async updateOneCheck(cart){
+        try {
+          await this.$store.dispatch('updateCartIscheck',{skuId:cart.skuId,isChecked:cart.isChecked?0:1})
+          alert('修改成功!')
+        } catch (error) {
+          alert(error.message)
+        }
       }
     },
     computed:{
@@ -83,8 +135,46 @@
       cartInfoList(){
         return this.cartInfo.cartInfoList || []
         // return this.shopCartInfo[0].cartInfoList || []
-      }
+      },
+      checkedNum(){
+        return this.cartInfoList.reduce((prev,item)=>{
+          if(item.isChecked){
+            prev += item.skuNum
+          }
+          return prev
+        },0)
+      },
+      //计算总价
+      totalPrice(){
+        return this.cartInfoList.reduce((prev,item)=>{
+          if(item.isChecked){
+            prev += item.skuNum * item.skuPrice
+          }
+          return prev
+        },0)
+      },
+      //计算全选数据
+      isCheckedAll:{
+        get(){
+          //读取的
+          return this.cartInfoList.every(item => item.isChecked)
+        },
+        async set(val){
+          //修改的
+          //val获取到的是用户点击全选之后的 多选框checked的属性值 是个布尔值
+          //在这里我们发请求,修改所有的购物车的选中状态
+          //this.$store.dispatch('updateCartIscheckAll',val?1:0)就是Promise.all返回的新的Promise
+          try {
+            let result = await this.$store.dispatch('updateCartIscheckAll',val?1:0)
+            console.log(result);
+            this.getshopCartInfo()
+            alert('修改成功!')
+          } catch (error) {
+            alert('修改失败!'+error.message)
+          }
 
+        }
+      }
     }
   }
 </script>

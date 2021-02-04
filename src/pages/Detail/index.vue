@@ -402,7 +402,7 @@
           //第二部:根据请求添加购物车返回信息决定是否跳转到购物车添加成功页面
 
           //往添加购物车成功页面跳转的时候,要传递skuNum和商品详情信息
-          alert('添加成功!')
+          alert('添加购物车成功!')
           sessionStorage.setItem('SKUINFO_KEY',JSON.stringify(this.skuInfo))
           this.$router.push('/addCartSuccess?skuNum='+this.skuNum)
 

@@ -76,3 +76,11 @@ export const reqShopCartInfo= () => {
         method:'get'
     })
 }
+
+//请求修改购物车选中状态
+export const reqUpdateCartIscheck= (skuId,isChecked) => {
+    return request({
+        url:`/cart/checkCart/${skuId}/${isChecked}`,
+        method:'get'
+    })
+}

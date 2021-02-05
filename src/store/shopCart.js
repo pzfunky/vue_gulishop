@@ -1,6 +1,6 @@
 //这是shopCart模块的vuex模块
 
-import { reqAddOrUpdateShopCart, reqShopCartInfo, reqUpdateCartIscheck } from "@/api"
+import { reqAddOrUpdateShopCart, reqShopCartInfo, reqUpdateCartIscheck, reqDeleteShopCart} from "@/api"
 
 //vuex当中的4个核心概念
 const state = {
@@ -49,6 +49,27 @@ const actions = {
             if(item.isChecked === isChecked) return  //如果发现其中的每个购物车数据已经和要改变的状态一样,就不用请求改变了
             //本质还是通过调用上面的函数updateCartIscheck修改每一个来达到修改全部的效果,
             let promise = dispatch('updateCartIscheck',{skuId:item.skuId,isChecked})
+            promises.push(promise)
+        });
+        return Promise.all(promises)
+    },
+
+    //删除单个
+    async deleteShopCart({commit},skuId){
+        const result = await reqDeleteShopCart(skuId)
+        if(result.code === 200){
+            return 'ok'
+        }else{
+            return Promise.reject(new Error('failed'))
+        }
+    },
+
+    //删除多个
+    deleteShopCartAll({commit,getters,dispatch}){
+        let promises = []
+        getters.cartInfo.cartInfoList.forEach(item => {
+            if(!item.isChecked) return 
+            let promise = dispatch('deleteShopCart',item.skuId)
             promises.push(promise)
         });
         return Promise.all(promises)

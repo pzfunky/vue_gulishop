@@ -13,7 +13,12 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="(cart) in cartInfoList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="cart.isChecked" @click="updateOneCheck(cart)">
+            <input 
+              type="checkbox" 
+              name="chk_list" 
+              :checked="cart.isChecked" 
+              @click="updateOneCheck(cart)"
+            >
           </li>
           <li class="cart-list-con2">
             <img :src="cart.imgUrl">
@@ -38,7 +43,7 @@
             <span class="sum">{{cart.skuPrice*cart.skuNum}}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="javascript:;" class="sindelet" @click="deleteOne(cart)">删除</a>
             <br>
             <a href="#none">移到收藏</a>
           </li>
@@ -51,7 +56,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="javascript:;" @click="deleteAll">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -110,6 +115,7 @@
         try {
           await this.$store.dispatch('addOrUpdateShopCart',{skuId:cart.skuId,skuNum:disNum})
           //如果请求成功,重新获取购物车列表数据
+          alert("修改成功");
           this.getshopCartInfo()
         } catch (error) {
           alert(error.message)
@@ -120,10 +126,36 @@
       //修改购物车选中状态
       async updateOneCheck(cart){
         try {
-          await this.$store.dispatch('updateCartIscheck',{skuId:cart.skuId,isChecked:cart.isChecked?0:1})
+          await this.$store.dispatch('updateCartIscheck',{
+            skuId:cart.skuId,
+            isChecked:cart.isChecked ? 0 : 1
+          })
           alert('修改成功!')
+          this.getshopCartInfo()
         } catch (error) {
           alert(error.message)
+        }
+      },
+
+      //删除单个商品
+      async deleteOne(cart){
+        try {
+          await this.$store.dispatch('deleteShopCart',cart.skuId)
+          alert('删除成功!')          
+          this.getshopCartInfo()
+        } catch (error) {
+          alert(error.message)
+        }
+      },
+
+      //删除多个商品
+      async deleteAll(){
+        try {
+          await this.$store.dispatch('deleteShopCartAll')
+          alert('删除多个成功!')
+          this.getshopCartInfo()
+        } catch (error) {
+          alert('删除多个失败!'+error.message)
         }
       }
     },
@@ -166,7 +198,7 @@
           //this.$store.dispatch('updateCartIscheckAll',val?1:0)就是Promise.all返回的新的Promise
           try {
             let result = await this.$store.dispatch('updateCartIscheckAll',val?1:0)
-            console.log(result);
+            // console.log(result);
             this.getshopCartInfo()
             alert('修改成功!')
           } catch (error) {

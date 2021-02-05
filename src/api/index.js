@@ -84,3 +84,11 @@ export const reqUpdateCartIscheck= (skuId,isChecked) => {
         method:'get'
     })
 }
+
+//删除单个商品
+export const reqDeleteShopCart = (skuId)=>{
+    return request({
+        url:`/cart/deleteCart/${skuId}`,
+        method:'DELETE'
+    })
+}

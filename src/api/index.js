@@ -92,3 +92,21 @@ export const reqDeleteShopCart = (skuId)=>{
         method:'DELETE'
     })
 }
+
+//注册
+//参数是请求体 包含code phone password
+export const reqUserRegister = (userInfo) => {
+    return request({
+        url:'/user/passport/register',
+        method:'post',
+        data:userInfo
+    })
+}
+
+//请求获取用户注册验证码
+export const reqGetCode = (phone) => {
+    return request({
+        url:`/user/passport/sendCode/${phone}`,
+        method:'get',
+    })
+}

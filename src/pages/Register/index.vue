@@ -2,38 +2,39 @@
   <div class="register-container">
     <!-- 注册内容 -->
     <div class="register">
-      <h3>注册新用户
-        <span class="go">我有账号，去 <a href="login.html" target="_blank">登陆</a>
+      <h3>注册新用户        
+        <span class="go">我有账号，去 <router-link to="/login" target="_blank">登录</router-link>
         </span>
       </h3>
       <div class="content">
         <label>手机号:</label>
-        <input type="text" placeholder="请输入你的手机号">
+        <input type="text" placeholder="请输入你的手机号" v-model="phone">
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>验证码:</label>
-        <input type="text" placeholder="请输入验证码">
-        <img ref="code" src="http://182.92.128.115/api/user/passport/code" alt="code">
+        <input type="text" placeholder="请输入验证码" v-model="code">
+        <!-- <img ref="code" src="http://182.92.128.115/api/user/passport/code" alt="code"> -->
+        <button @click="getCode">获取验证码</button>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <input type="text" placeholder="请输入你的登录密码">
+        <input type="text" placeholder="请输入你的登录密码" v-model="password">
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input type="text" placeholder="请输入确认密码">
+        <input type="text" placeholder="请输入确认密码" v-model="password2">
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox">
+        <input name="m1" type="checkbox" v-model="isChecked">
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="btn">
-        <button>完成注册</button>
+        <button @click="register">完成注册</button>
       </div>
     </div>
 
@@ -58,7 +59,46 @@
 
 <script>
   export default {
-    name: 'Register'
+    name: 'Register',
+    data(){
+      return {
+        phone:'',
+        password:'',
+        password2:'',
+        code:'',
+        isChecked:false
+      }
+    },
+    methods:{
+      //发请求,把收集的数据作为参数传递给后台存储数据库
+      async register(){
+        let {phone,password,code,password2,isChecked} = this
+        if(phone&&password&&password2&&code&&isChecked&&password2 === password){
+          try {
+            await this.$store.dispatch('userRegister',{phone,password,code})
+            alert('注册成功!自动跳转到登录页面!')
+
+            //注册成功后 跳转到登录
+            this.$router.push('/login')
+
+          } catch (error) {
+            alert('注册失败!'+error.message)
+          }
+        }else{
+          alert('请全部填写!')
+        }
+      },
+
+      //获取验证码
+      async getCode(){
+        try {
+          await this.$store.dispatch('getCode',this.phone)
+          this.code = this.$store.state.user.code
+        } catch (error) {
+          alert('发送验证码失败!')
+        }
+      }
+    }
   }
 </script>
 

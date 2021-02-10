@@ -110,3 +110,29 @@ export const reqGetCode = (phone) => {
         method:'get',
     })
 }
+
+//请求用户登录
+export const reqUserLogin = (userInfo) => {
+    return request({
+        url:`/user/passport/login`,
+        method:'post',
+        data:userInfo
+    })
+}
+
+//根据token请求获取用户的信息
+///user/passport/auth/getUserInfo 参数是token已经在请求头中添加 请求方式get
+export const reqGetUserInfo = () => {
+    return request({
+        url:`/user/passport/auth/getUserInfo`,
+        method:'get',
+    })
+}
+
+//退出登录
+export const reqUserLogout = () => {
+    return request({
+        url:'/user/passport/logout',
+        method:'get',
+    })
+}

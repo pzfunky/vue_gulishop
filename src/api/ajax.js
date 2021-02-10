@@ -37,6 +37,12 @@ service.interceptors.request.use(function (config) {
     if(userTempId){
       config.headers.userTempId = userTempId
     }
+    
+    //登录成功后请求头内部添加token后期每个请求都会带上
+    let token = store.state.user.token
+    if(token){
+      config.headers.token = token
+    }
 
     return config;
   }, function (error) {

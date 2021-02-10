@@ -397,7 +397,7 @@
         //第二种写法,actions的异步函数,返回的promise可能成功也可能失败,成功就代表请求成功,返回结果ok
         //失败就拿到return的失败的promise的原因
         try {
-          let result = await this.$store.dispatch('addOrUpdateShopCart',{skuId:this.skuId,skuNum:this.skuNum})
+          await this.$store.dispatch('addOrUpdateShopCart',{skuId:this.skuId,skuNum:this.skuNum})
 
           //第二部:根据请求添加购物车返回信息决定是否跳转到购物车添加成功页面
 

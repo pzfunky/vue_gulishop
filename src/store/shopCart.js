@@ -78,7 +78,9 @@ const actions = {
 const mutations = {
     //直接修改数据
     RECEIVE_SHOPCARTINFO(state,shopCartInfo){
+        console.log(state.shopCartInfo);
         state.shopCartInfo = shopCartInfo
+        console.log(state.shopCartInfo);
     },
 
 

@@ -150,6 +150,8 @@
 
       //删除多个商品
       async deleteAll(){
+        //若没有选中的商品 不发送请求直接返回
+        if(!this.checkedNum) return alert('没有选中的商品')
         try {
           await this.$store.dispatch('deleteShopCartAll')
           alert('删除多个成功!')

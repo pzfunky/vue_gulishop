@@ -136,3 +136,44 @@ export const reqUserLogout = () => {
         method:'get',
     })
 }
+
+//请求获取用户的收货地址信息
+export const reqUserAddressList = () => {
+    return request({
+        url:'/user/userAddress/auth/findUserAddressList',
+        method:'get',
+    })
+}
+
+//请求获取订单交易页面信息
+export const reqTradeInfo = () => {
+    return request({
+        url:'/order/auth/trade',
+        method:'get',
+    })
+}
+
+//提交订单
+export const reqSubmitOrder = (tradeNo,tradeInfo) => {
+    return request({
+        url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,
+        method:'POST',
+        data:tradeInfo
+    })
+}
+
+//请求获取支付信息
+export const reqPayInfo = (orderId) => {
+    return request({
+        url:`/payment/weixin/createNative/${orderId}`,
+        method:'get',
+    })
+}
+
+//查询订单的支付状态
+export const reqPayStatus = (orderId) => {
+    return request({
+        url:`/payment/weixin/queryPayStatus/${orderId}`,
+        method:'get',
+    })
+}

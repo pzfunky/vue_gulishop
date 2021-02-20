@@ -5,6 +5,7 @@ import user from './user'
 import search from './search'
 import detail from './detail'
 import shopCart from './shopCart'
+import trade from './trade'
 Vue.use(Vuex)
 //这是总的vuex模块
 
@@ -32,6 +33,7 @@ export default new Vuex.Store({
         user,
         search,
         detail,
-        shopCart
+        shopCart,
+        trade
     }
 })

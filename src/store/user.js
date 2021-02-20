@@ -1,5 +1,5 @@
 //这是user模块的vuex模块
-import { reqUserRegister, reqGetCode, reqUserLogin, reqGetUserInfo, reqUserLogout} from '@/api'
+import { reqUserRegister, reqGetCode, reqUserLogin, reqGetUserInfo, reqUserLogout, reqUserAddressList} from '@/api'
 import {getUserTempId} from '@/utils/userabout'
 
 //vuex当中的4个核心概念
@@ -9,7 +9,8 @@ const state = {
     userTempId:getUserTempId(),
     code:'',
     token:localStorage.getItem('TOKEN_KEY'),    //第一次登录的时候,我们先初始化
-    userInfo:{} //根据token获取用户信息
+    userInfo:{}, //根据token获取用户信息
+    userAddressList:[]  //收货地址信息
 }
 const actions = {
     //与组件当中用户对接,一般是异步发请求,提交mutations
@@ -80,7 +81,19 @@ const actions = {
         }else{
             return Promise.reject(new Error('failed'))
         }
-    }
+    },
+
+    //请求收货地址信息
+    async getUserAddressList({commit}){
+        const result = await reqUserAddressList()
+        if(result.code === 200){
+            commit('RECEIVE_USERADDRESSLIST',result.data)
+            return 'ok'
+        }else{
+            return Promise.reject(new Error('failed'))
+        }
+    },
+
 }
 const mutations = {
     //直接修改数据
@@ -104,6 +117,11 @@ const mutations = {
         state.token = ''
         state.userInfo = {}
         localStorage.removeItem('TOKEN_KEY')
+    },
+
+    //存储收货地址信息
+    RECEIVE_USERADDRESSLIST(state,userAddressList){
+        state.userAddressList = userAddressList
     }
 }
 const getters = {

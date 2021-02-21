@@ -98,7 +98,7 @@
     },
     mounted(){
       this.getPayInfo()
-      this.payInfo.codeUrl = 'https://www.baidu.com/'    //临时测试瞎写的字符串
+      // this.payInfo.codeUrl = 'https://www.baidu.com/'    //临时测试瞎写的字符串
     },
     methods:{
       async getPayInfo(){
@@ -122,20 +122,35 @@
             beforeClose:(action, instance, done) => {
               //action代表用户点击的哪个按钮 confirm确定 cancel取消 close取消
               if(action === 'confirm'){
+                //正常的代码逻辑
                 //代表用户点击的是确定
                 //判断如果没有支付
-                if(!this.payStatus){
-                  //1.提示
-                  this.$message.info('请确保支付成功,成功后会自动跳转到支付成功页面')
-                  
-                }
+                // if(!this.payStatus){
+                //   //1.提示
+                //   this.$message.info('请确保支付成功,成功后会自动跳转到支付成功页面')                  
+                // }
+
+                //后门
+                clearInterval(this.timer)
+                this.timer = null
+                done()
+                this.$router.push('/paysuccess')
+
 
               }else if(action === 'cancel'){
                 //代表用户点击的取消
+                // this.$message.success  绿色提示
+                // this.$message.info    灰色提示
+                // this.$message.error   红色提示
+                // this.$message.warning 橙色提示
+
+                //1、提示
                 this.$message.warning('支付问题请联系尚硅谷小姐姐')
-                clearInterval(this.timer) //关闭定时器
-                this.timer = null
-                done()  //关闭弹框
+                //2、清除定时器
+                clearInterval(this.timer) //clearInterval只是清除了定时器，不让管理模块当中定时器生效
+                this.timer = null //把之前设置定时器的编号id 也清除
+                //3、关闭消息盒子
+                done()  //调用就会关闭，不调就不关
               }
             }
           }).then(()=>{}).catch(()=>{})
@@ -146,22 +161,21 @@
 
           //轮询 隔两秒发一个请求 为了让后台返回给我这个订单的支付状态
           if(!this.timer){
-            let timer = setInterval(async()=>{
+            this.timer = setInterval(async()=>{
               const result = await this.$API.reqPayStatus(this.orderNum) 
               if(result.code === 200){
                 //代表支付状态成功
-                /**
-                 * 1.把成功的标志存储起来
-                 * 2.提示支付成功
-                 * 3.清除定时器
-                 * 4.自动跳转到支付成功页面
-                 */
+
+                //1.把成功的标志存储起来
                 this.payStatus = 200
+                //2.提示支付成功
                 this.$message.success('支付成功')
+                //3.清除定时器
                 clearInterval(this.timer)
                 this.timer = null
-                //关闭弹框
-                this.$msgbox.close()
+                //4.自动跳转到支付成功页面
+                //跳转之前要关闭掉弹出框
+                this.$msgbox.close()  //强制关闭掉弹出框
                 this.$router.push('/paysuccess')
               }
             },2000)

@@ -96,11 +96,11 @@
     data(){
       return {
         message:'',  //收集用户输入的留言信息
-        defaultAddress:{}
+        // defaultAddress:{}
       }
     },
     beforeMount(){
-      this.resetDefaultAddress()
+      // this.resetDefaultAddress()
 
     },
     mounted(){
@@ -133,7 +133,7 @@
         this.userAddressList[index].isDefault = '1'
       },
       //提交订单逻辑
-      submitOrder(){
+      async submitOrder(){
         //准备参数
         let tradeNo = this.tradeInfo.tradeNo
         let tradeInfo = {
@@ -146,12 +146,12 @@
         }
         console.log(tradeNo,tradeInfo);
         //首先要发请求创建订单,
-        const result = this.$API.reqSubmitOrder(tradeNo,this.tradeInfo)
+        const result = await this.$API.reqSubmitOrder(tradeNo,tradeInfo)
         console.log(result);
         if(result.code === 200){
           //请求成功回返回订单编号
           alert('创建订单成功,准备去往支付页面')
-          //跳转
+          //可以跳转到支付页面，需要把返回的订单编号给带上
           this.$router.push('/pay?orderNum='+result.data)
         }
       }
@@ -163,9 +163,9 @@
         tradeInfo:state => state.trade.tradeInfo
       }),
       //点击哪一个地址,需要计算最终收货的地址信息,在页面最下方
-      // defaultAddress(){
-      //   return this.userAddressList.find(item => item.isDefault === '1') || {}
-      // }
+      defaultAddress(){
+        return this.userAddressList.find(item => item.isDefault === '1') || {}
+      }
     }
   }
 </script>

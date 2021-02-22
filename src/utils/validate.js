@@ -5,15 +5,25 @@ Vue.use(VeeValidate)
 
 //错误信息本地化
 VeeValidate.Validator.localize('zh_CN',{
-    message:{
+    messages:{
         ...zh_CN.messages,
-        is:(field) => `${field}必须与密码相同`   //修改内置规则的message
+        is:(field) => `${field}必须与密码相同`   //修改内置规则的message,让确认密码和密码相同
     },
 
     attributes:{    //给校验的field属性映射中文名称
         phone:'手机号',
         code:'验证码',
         password:'登录密码',
-        email:'邮箱'
+        password2:'确认密码',
+        isChecked:'协议'
     }
+})
+
+//自定义校验规则
+//定义协议必须打勾同意
+VeeValidate.Validator.extend('agree', {
+    validate: value => {
+      return value
+    },
+    getMessage: field => field + '必须同意'
 })

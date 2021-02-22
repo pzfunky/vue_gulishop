@@ -15,6 +15,8 @@ Vue.use(VueLazyload,{
   loading
 })
 
+import '@/utils/validate' //引入表单验证
+
 import { Button, MessageBox, Message } from 'element-ui'
 Vue.use(Button)
 Vue.prototype.$msgbox = MessageBox

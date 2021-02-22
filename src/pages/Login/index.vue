@@ -80,8 +80,9 @@
         if(phone&&password){
           try {
             await this.$store.dispatch('userLogin',{phone,password})
-            alert('登录成功!')
-            this.$router.push('/home')
+            alert('登录成功!自动跳转至上一个页面')
+            let targetPath = this.$route.query.redirect || '/'
+            this.$router.push(targetPath)
           } catch (error) {
             alert('登录失败!')            
           }

@@ -68,8 +68,9 @@ router.beforeEach(async(to,from,next) => {
                     //代表获取用户信息成功,用户信息拿到就无条件放行
                     await store.dispatch('getUserInfo')   //根据用户token获取用户信息
                     let userInfo1 = store.state.user.userInfo
-                    console.log('getUserInfo '+userInfo);
-                    console.log('getUserInfo '+userInfo1);
+                    console.log('getUserInfo '+userInfo)
+                    console.log('getUserInfo '+userInfo1)
+                    console.log(userInfo1)
                     next()
                 } catch (error) {
                     //获取用户信息失败,代表token可能过期,把用户的过期token清理掉,重新跳转到登录页面
@@ -83,7 +84,15 @@ router.beforeEach(async(to,from,next) => {
     }else{
         //用户根本没登录
         //目前我们什么都不做,直接放行,后期要添加功能
-        next()
+        //如果用户访问交易相关 支付相关 个人中心相关 那么跳转到登录页面
+
+        let targetPath = to.path
+        if(targetPath.indexOf('/trade') !== -1 || targetPath.indexOf('/pay') !== -1 || targetPath.startsWith('/center')){
+            next('/login?redirect='+targetPath)     //想要回到之前想去的地方
+            
+        }else{
+            next()
+        }
     }
 })
 

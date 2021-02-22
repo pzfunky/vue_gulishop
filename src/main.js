@@ -9,6 +9,12 @@ import 'swiper/css/swiper.css' //引入swiper的css文件
 
 import * as API from '@/api'   //直接获取接口请求函数文件暴露出来的对象
 
+import VueLazyload from 'vue-lazyload'  //引入图片懒加载
+import loading from '@/assets/logo.png'
+Vue.use(VueLazyload,{
+  loading
+})
+
 import { Button, MessageBox, Message } from 'element-ui'
 Vue.use(Button)
 Vue.prototype.$msgbox = MessageBox

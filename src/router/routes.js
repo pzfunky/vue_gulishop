@@ -1,5 +1,9 @@
-import Home from '@/pages/Home'
-import Search from '@/pages/Search'
+//同步引入
+// import Home from '@/pages/Home'
+//异步引入 路由懒加载 import函数可以让文件单独打包 形成动态加载
+const Home = () => import('@/pages/Home')
+// import Search from '@/pages/Search'
+const Search = () => import('@/pages/Search')
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'

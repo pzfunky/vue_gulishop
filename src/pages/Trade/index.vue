@@ -96,12 +96,11 @@
     data(){
       return {
         message:'',  //收集用户输入的留言信息
-        // defaultAddress:{}
+        defaultAddress:{}
       }
     },
     beforeMount(){
-      // this.resetDefaultAddress()
-
+      this.resetDefaultAddress()
     },
     mounted(){
       this.getUserAddressList()
@@ -163,9 +162,9 @@
         tradeInfo:state => state.trade.tradeInfo
       }),
       //点击哪一个地址,需要计算最终收货的地址信息,在页面最下方
-      defaultAddress(){
-        return this.userAddressList.find(item => item.isDefault === '1') || {}
-      }
+      // defaultAddress(){
+      //   return this.userAddressList.find(item => item.isDefault === '1') || {}
+      // }
     }
   }
 </script>

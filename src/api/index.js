@@ -177,3 +177,11 @@ export const reqPayStatus = (orderId) => {
         method:'get',
     })
 }
+
+//请求我的订单列表
+export const reqMyOrderInfo = (page,limit) => {
+    return request({
+        url:`/order/auth/${page}/${limit}`,
+        method:'get',
+    })
+}

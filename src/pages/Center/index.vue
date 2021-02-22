@@ -61,10 +61,8 @@
 </template>
 
 <script>
-  import MyOrder from '@/pages/Center/MyOrder'
-  import GroupOrder from '@/pages/Center/GroupOrder'
   export default {
-    name: '',
+    name: 'Center',
   }
 </script>
 

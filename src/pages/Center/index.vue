@@ -65,10 +65,6 @@
   import GroupOrder from '@/pages/Center/GroupOrder'
   export default {
     name: '',
-    components:{
-      MyOrder,
-      GroupOrder
-    }
   }
 </script>
 

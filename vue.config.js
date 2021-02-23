@@ -6,6 +6,7 @@ module.exports = {
                 //转发的目标服务器地址
                 target:"http://182.92.128.115"
             }
-        }
+        },
+        disableHostCheck: true,
     }
 }
